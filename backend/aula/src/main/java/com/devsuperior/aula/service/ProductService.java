@@ -1,5 +1,6 @@
 package com.devsuperior.aula.service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,17 @@ public class ProductService {
 
         convertProductTODTO(product, dto);
 
+        product = productRepository.save(product);
+
+        return new ProductDTO(product);
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) {
+        Product product = productRepository.getReferenceById(id);
+        convertProductTODTO(product, dto);
+        product = productRepository.save(product);
+
         return new ProductDTO(product);
     }
 
@@ -52,6 +64,7 @@ public class ProductService {
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
         product.setImgUrl(dto.getImgUrl());
+        product.setDate(Instant.now());
         product.getCategories().clear();
         for (CategoryDTO cat : dto.getCategories()) {
             Category category = categoryRepository.getReferenceById(cat.getId());

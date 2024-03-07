@@ -1,6 +1,6 @@
 package com.devsuperior.aula.dto;
 
-import java.util.List;
+import java.time.Instant;
 
 import com.devsuperior.aula.model.Category;
 
@@ -16,11 +16,13 @@ import lombok.Setter;
 public class CategoryDTO {
     private Long id;
     private String name;
-    private List<ProductDTO> products;
+    private Instant createdAt;
+    private Instant updateAt;
 
     public CategoryDTO(Category entity) {
         id = entity.getId();
         name = entity.getName();
-
+        createdAt = entity.getCreatedAt();
+        updateAt = entity.getUpdatedAt();
     }
 }

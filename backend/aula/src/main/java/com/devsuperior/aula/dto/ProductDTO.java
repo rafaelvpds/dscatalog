@@ -1,5 +1,7 @@
 package com.devsuperior.aula.dto;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.devsuperior.aula.model.Category;
@@ -20,7 +22,8 @@ public class ProductDTO {
     private String description;
     private Double price;
     private String imgUrl;
-    private List<CategoryDTO> categories;
+    private Instant date;
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(Product entity) {
         id = entity.getId();
@@ -28,6 +31,7 @@ public class ProductDTO {
         description = entity.getDescription();
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
+        date = entity.getDate();
         for (Category cat : entity.getCategories()) {
             categories.add(new CategoryDTO(cat));
         }
