@@ -1,10 +1,11 @@
 package com.devsuperior.aula.service;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +26,12 @@ public class ProductService {
     CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll() {
-        List<Product> products = productRepository.findAll();
+    public Page<ProductDTO> findAll(Pageable page) {
 
-        return products.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
+        Page<Product> products = productRepository
+                .findAll(PageRequest.of(page.getPageNumber(), page.getPageSize(), page.getSort()));
+
+        return products.map(x -> new ProductDTO(x));
     }
 
     @Transactional(readOnly = true)
